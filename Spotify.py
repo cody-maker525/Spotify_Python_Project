@@ -1,20 +1,43 @@
 # python numbers
-import numpy as np
+import pandas as pd
 
+
+import matplotlib.pyplot as plt
+import numpy as np
 import csv
 import json
 
 # data analysis library
-import pandas as pd
 
-with open("Liked_Songs.csv",mode="r" ,encoding="utf-8", newline="") as f:
-    data = csv.reader(f)
-    for row in data:
-        print(row)
+
+# with open("Liked_Songs.csv",mode="r" ,encoding="utf-8", newline="") as f:
+#     data = csv.reader(f)
+#     for row in data:
+#         print(row)
 
 df = pd.read_csv('Liked_Songs.csv')
+#print(df)
 
+#df['genres] selects genres col from table
+#.dropna removes row where genres is missing
+#.str.split with explode = if more than one value split, then treat separately
+#str.strip removes trailing whitespace
+genres = df['Genres'].dropna(). str.split(',').explode().str.strip()
 
+#value counts= how many times each unique value appears
+genre_counts = genres.value_counts()
+
+top15 = genre_counts.head(15)
+
+top15.plot(kind="bar")
+plt.title('Top 15 Genres')
+plt.xlabel('Genre')
+plt.ylabel('Count')
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+
+#tight layout adjusts spacing
 
 
 
